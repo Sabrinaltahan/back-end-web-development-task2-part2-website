@@ -1,4 +1,4 @@
-const apiUrl = 'https://back-end-web-development-task2-part1-api.onrender.com/';
+const apiUrl = 'https://back-end-web-development-task2-part1-api.onrender.com/workexperience';
 
 function fetchWorkExperiences() {
     fetch(`${apiUrl}/workexperience`)
