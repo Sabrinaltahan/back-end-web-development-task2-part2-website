@@ -1,108 +1,106 @@
+const apiUrl = 'https://back-end-web-development-task2-part1-api.onrender.com/';
 
-const apiUrl = 'https://back-end-web-development-task2-part1-api.onrender.com/courses';
-
-function fetchCourses() {
-    fetch(`${apiUrl}`)
+function fetchWorkExperiences() {
+    fetch(`${apiUrl}/workexperience`)
         .then(response => response.json())
-        .then(courses => {
-            const courseList = document.getElementById('courseList');
-            courseList.innerHTML = '';
+        .then(workExperiences => {
+            const workExperienceList = document.getElementById('workExperienceList');
+            workExperienceList.innerHTML = '';
 
-            courses.forEach(course => {
+            workExperiences.forEach(workExperience => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>${course.id}</td>
-                    <td>${course.course_code}</td>
-                    <td>${course.course_name}</td>
-                    <td><a href="${course.syllabus}">Link</a></td>
-                    <td>${course.progression}</td>
+                    <td>${workExperience.id}</td>
+                    <td>${workExperience.companyname}</td>
+                    <td>${workExperience.jobtitle}</td>
+                    <td>${workExperience.location}</td>
+                    <td>${workExperience.startdate}</td>
+                    <td>${workExperience.enddate}</td>
+                    <td>${workExperience.description}</td>
                     <td>
-                        <button onclick="goUpdateCourse(${course.id})">Update</button>
-                        <button onclick="deleteCourse(${course.id})">Delete</button>
+                        <button onclick="goUpdateWorkExperience(${workExperience.id})">Update</button>
+                        <button onclick="deleteWorkExperience(${workExperience.id})">Delete</button>
                     </td>
                 `;
-                courseList.appendChild(tr);
+                workExperienceList.appendChild(tr);
             });
         })
-        .catch(error => console.error('Error fetching courses:', error));
+        .catch(error => console.error('Error fetching work experiences:', error));
 }
 
-
-function addCourse(event) {
+function addWorkExperience(event) {
     event.preventDefault();
 
     const form = event.target;
     const formData = new FormData(form);
 
-    const courseData = {
-        courseCode: formData.get('courseCode'),
-        courseName: formData.get('courseName'),
-        syllabus: formData.get('syllabus'),
-        progression: formData.get('progression')
+    const workExperienceData = {
+        companyname: formData.get('companyname'),
+        jobtitle: formData.get('jobtitle'),
+        location: formData.get('location'),
+        startdate: formData.get('startdate'),
+        enddate: formData.get('enddate'),
+        description: formData.get('description')
     };
 
-    fetch(`${apiUrl}`, {
+    fetch(`${apiUrl}/workexperience`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(courseData) 
+        body: JSON.stringify(workExperienceData)
     })
     .then(() => {
-        window.location.href = 'index.html'; 
+        window.location.href = 'index.html';
     })
-    .catch(error => console.error('Error adding course:', error));
+    .catch(error => console.error('Error adding work experience:', error));
 }
 
-
-
-function deleteCourse(id) {
-    fetch(`${apiUrl}/${id}`, {
+function deleteWorkExperience(id) {
+    fetch(`${apiUrl}/workexperience/${id}`, {
         method: 'DELETE'
     })
     .then(() => {
-        fetchCourses(); 
+        fetchWorkExperiences();
     })
-    .catch(error => console.error('Error deleting course:', error));
+    .catch(error => console.error('Error deleting work experience:', error));
 }
 
-
-function goUpdateCourse(id) {
+function goUpdateWorkExperience(id) {
     window.location.href = `update.html?id=${id}`;
 }
 
-
-function fetchCourseDetails(id) {
-    fetch(`${apiUrl}/${id}`)
+function fetchWorkExperienceDetails(id) {
+    fetch(`${apiUrl}/workexperience/${id}`)
         .then(response => response.json())
-        .then(course => {
-            document.getElementById('courseCode').value = course.course_code;
-            document.getElementById('courseName').value = course.course_name;
-            document.getElementById('syllabus').value = course.syllabus;
-            document.getElementById('progression').value = course.progression;
+        .then(workExperience => {
+            document.getElementById('companyname').value = workExperience.companyname;
+            document.getElementById('jobtitle').value = workExperience.jobtitle;
+            document.getElementById('location').value = workExperience.location;
+            document.getElementById('startdate').value = workExperience.startdate;
+            document.getElementById('enddate').value = workExperience.enddate;
+            document.getElementById('description').value = workExperience.description;
         })
-        .catch(error => console.error('Error fetching course details:', error));
+        .catch(error => console.error('Error fetching work experience details:', error));
 }
-
 
 window.addEventListener('load', () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const courseId = urlParams.get('id');
-    if (courseId) {
-        fetchCourseDetails(courseId);
+    const workExperienceId = urlParams.get('id');
+    if (workExperienceId) {
+        fetchWorkExperienceDetails(workExperienceId);
     }
 });
 
-
-function updateCourse(event) {
+function updateWorkExperience(event) {
     event.preventDefault();
 
     const form = event.target;
     const formData = new FormData(form);
 
-    const courseId = new URLSearchParams(window.location.search).get('id');
+    const workExperienceId = new URLSearchParams(window.location.search).get('id');
 
-    fetch(`${apiUrl}/${courseId}`, {
+    fetch(`${apiUrl}/workexperience/${workExperienceId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -112,9 +110,8 @@ function updateCourse(event) {
     .then(() => {
         window.location.href = 'index.html';
     })
-    .catch(error => console.error('Error updating course:', error));
+    .catch(error => console.error('Error updating work experience:', error));
 }
 
-
-// Fetch courses when the page loads
-window.addEventListener('load', fetchCourses);
+// Fetch work experiences when the page loads
+window.addEventListener('load', fetchWorkExperiences);
