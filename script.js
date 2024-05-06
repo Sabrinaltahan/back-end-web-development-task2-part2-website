@@ -18,9 +18,10 @@ function fetchWorkExperiences() {
                     <td>${workExperience.enddate}</td>
                     <td>${workExperience.description}</td>
                     <td>
-                        <button onclick="goUpdateWorkExperience(${workExperience.id})">Update</button>
-                        <button onclick="deleteWorkExperience(${workExperience.id})">Delete</button>
+                        <button onclick="goUpdateWorkExperience(${workExperience.id})" class="update-button">Update</button>
+                        <button onclick="deleteWorkExperience(${workExperience.id})" class="delete-button">Delete</button>
                     </td>
+
                 `;
                 workExperienceList.appendChild(tr);
             });
